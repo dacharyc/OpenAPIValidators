@@ -7,7 +7,7 @@ const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',
 );
 
-describe('Recreate bug (issue #XX)', () => {
+describe('recreate bug (issue #XX)', () => {
   beforeAll(() => {
     const pathToApiSpec = path.join(dirContainingApiSpec, 'openapi.yml');
     jestOpenAPI(pathToApiSpec);

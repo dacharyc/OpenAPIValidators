@@ -12,7 +12,7 @@ const pathToApiSpec = path.resolve(
 
 jestOpenAPI(pathToApiSpec);
 
-describe('Parsing responses from different request modules', () => {
+describe('parsing responses from different request modules', () => {
   let server: Server;
   let appOrigin: string;
   beforeAll(() => {
@@ -122,12 +122,86 @@ describe('Parsing responses from different request modules', () => {
     beforeAll(async () => {
       axios = (await import('axios')).default;
     });
+
+    describe('res header is application/json, and res.body is a string', () => {
+      let res: AxiosResponse;
+      beforeAll(async () => {
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/header/application/json/and/responseBody/string`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
+      });
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
+      });
+    });
+
+    describe('res header is application/json, and res.body is {}', () => {
+      let res: AxiosResponse;
+      beforeAll(async () => {
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
+      });
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(str({ body: {} }));
+      });
+    });
+
+    describe('res header is text/html, res.body is {}, and res.text is a string', () => {
+      let res: AxiosResponse;
+      beforeAll(async () => {
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(`${appOrigin}/header/text/html`);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
+      });
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
+      });
+    });
     describe('res header is application/json, and res.body is a null', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/nullable`,
-        );
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/header/application/json/and/responseBody/nullable`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -141,9 +215,16 @@ describe('Parsing responses from different request modules', () => {
     describe('res has no content-type header, and res.body is empty string', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/no/content-type/header/and/no/response/body`,
-        );
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/no/content-type/header/and/no/response/body`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();

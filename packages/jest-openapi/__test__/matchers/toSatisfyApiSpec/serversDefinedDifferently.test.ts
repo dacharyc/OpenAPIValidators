@@ -28,7 +28,7 @@ const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently',
 );
 
-describe('Using OpenAPI 3 specs that define servers differently', () => {
+describe('using OpenAPI 3 specs that define servers differently', () => {
   describe('spec has no server property', () => {
     beforeAll(() => {
       const pathToApiSpec = path.join(
