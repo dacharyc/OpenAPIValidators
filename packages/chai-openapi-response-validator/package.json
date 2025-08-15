@@ -56,13 +56,14 @@
     "fs-extra": "^9.0.1",
     "mocha": "^8.2.0",
     "nyc": "15.1.0",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
     "supertest": "^6.0.0",
     "ts-mocha": "^8.0.0"
   },
   "dependencies": {
     "openapi-validator": "^0.14.2"
+  },
+  "peerDependencies": {
+    "mocha": ">=8 <12"
   }
 }
