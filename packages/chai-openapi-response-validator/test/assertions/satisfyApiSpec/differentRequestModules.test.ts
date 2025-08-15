@@ -329,28 +329,22 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a null', () => {
-      let res: AxiosResponse;
-      before(async () => {
-        res = await axios.get(
+      it('returns 200 and null body', async () => {
+        const res = await axios.get(
           `${appOrigin}/header/application/json/and/responseBody/nullable`,
           { validateStatus: () => true },
         );
-      });
-      it('returns 200 and null body', () => {
         expect(res.status).to.equal(200);
         expect(res.data).to.equal(null);
       });
     });
 
     describe('res has no content-type header, and res.body is empty string', () => {
-      let res: AxiosResponse;
-      before(async () => {
-        res = await axios.get(
+      it('returns 204 No Content', async () => {
+        const res = await axios.get(
           `${appOrigin}/no/content-type/header/and/no/response/body`,
           { validateStatus: () => true },
         );
-      });
-      it('returns 204 No Content', () => {
         expect(res.status).to.equal(204);
         expect(res.data).to.equal('');
       });
