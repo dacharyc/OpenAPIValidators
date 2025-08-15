@@ -457,6 +457,3 @@ describe('supertest', () => {
     });
   });
   });
-
-
-  // moved all axios (as request-promise replacement) tests into the main axios describe block above
