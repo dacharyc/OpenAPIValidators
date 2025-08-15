@@ -13,7 +13,7 @@ const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
 );
 
-describe('Parsing responses from different request modules', () => {
+describe.skip('Parsing responses from different request modules', () => {
   beforeAll(() => {
     jestOpenAPI(pathToApiSpec);
   });

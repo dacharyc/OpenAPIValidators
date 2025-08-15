@@ -6,6 +6,9 @@ import SuperAgentResponse from './classes/SuperAgentResponse';
 export default function makeResponse(
   res: RawResponse,
 ): AxiosResponse | SuperAgentResponse | RequestPromiseResponse {
+  if (!res || typeof res !== 'object') {
+    throw new TypeError('Invalid response object passed to makeResponse');
+  }
   if ('data' in res) {
     return new AxiosResponse(res);
   }
