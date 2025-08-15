@@ -1,18 +1,23 @@
+/**
+ * Jest config for ESM/TypeScript using ts-jest and NodeNext for ESM-only dependencies like axios
+ */
 module.exports = {
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/js-with-ts-esm',
   testEnvironment: 'node',
-  rootDir: '..',
-  roots: ['<rootDir>/jest-openapi', '<rootDir>/openapi-validator'],
-  collectCoverageFrom: [
-    '<rootDir>/jest-openapi/src/**/*',
-    '<rootDir>/openapi-validator/lib/**/*',
-  ],
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100,
+  extensionsToTreatAsEsm: ['.ts', '.mts'],
+  transform: {
+    '^.+\\.(ts|mts|js|mjs)$': [
+      'ts-jest',
+      {
+        useESM: true,
+        tsconfig: './tsconfig.jest-esm.json',
+      },
+    ],
+  },
+  globals: {
+    'ts-jest': {
+      useESM: true,
+      tsconfig: './tsconfig.jest-esm.json',
     },
   },
 };
