@@ -4333,7 +4333,7 @@ gopd@^1.2.0:
   resolved "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz"
   integrity sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11, graceful-fs@^4.2.2, graceful-fs@^4.2.3, graceful-fs@^4.2.4:
+graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11, graceful-fs@^4.2.2, graceful-fs@^4.2.3:
   version "4.2.11"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
@@ -4920,7 +4920,18 @@ istanbul-lib-instrument@^4.0.0:
     istanbul-lib-coverage "^3.0.0"
     semver "^6.3.0"
 
-istanbul-lib-instrument@^6.0.0, istanbul-lib-instrument@^6.0.2:
+istanbul-lib-instrument@^6.0.0:
+  version "6.0.3"
+  resolved "https://registry.npmjs.org/istanbul-lib-instrument/-/istanbul-lib-instrument-6.0.3.tgz"
+  integrity sha512-Vtgk7L/R2JHyyGW07spoFlB8/lpjiOLTjMdms6AFMraYt3BaJauod/NGrfnVG/y4Ix1JEuMRPDPEj2ua+zz1/Q==
+  dependencies:
+    "@babel/core" "^7.23.9"
+    "@babel/parser" "^7.23.9"
+    "@istanbuljs/schema" "^0.1.3"
+    istanbul-lib-coverage "^3.2.0"
+    semver "^7.5.4"
+
+istanbul-lib-instrument@^6.0.2:
   version "6.0.3"
   resolved "https://registry.npmjs.org/istanbul-lib-instrument/-/istanbul-lib-instrument-6.0.3.tgz"
   integrity sha512-Vtgk7L/R2JHyyGW07spoFlB8/lpjiOLTjMdms6AFMraYt3BaJauod/NGrfnVG/y4Ix1JEuMRPDPEj2ua+zz1/Q==
@@ -5158,6 +5169,29 @@ jest-haste-map@30.0.5:
   optionalDependencies:
     fsevents "^2.3.3"
 
+jest-jasmine2@^30.0.5:
+  version "30.0.5"
+  resolved "https://registry.npmjs.org/jest-jasmine2/-/jest-jasmine2-30.0.5.tgz"
+  integrity sha512-bmX9towEwrPghS2q+IlwDbF/vD+U18BNafo9bZZjne6nXSaa4AXZWGcaTklWjX1+YkBiE7TYGaI2SVIb1EJjEg==
+  dependencies:
+    "@jest/environment" "30.0.5"
+    "@jest/expect" "30.0.5"
+    "@jest/source-map" "30.0.1"
+    "@jest/test-result" "30.0.5"
+    "@jest/types" "30.0.5"
+    "@types/node" "*"
+    chalk "^4.1.2"
+    co "^4.6.0"
+    is-generator-fn "^2.1.0"
+    jest-each "30.0.5"
+    jest-matcher-utils "30.0.5"
+    jest-message-util "30.0.5"
+    jest-runtime "30.0.5"
+    jest-snapshot "30.0.5"
+    jest-util "30.0.5"
+    p-limit "^3.1.0"
+    pretty-format "30.0.5"
+
 jest-leak-detector@30.0.5:
   version "30.0.5"
   resolved "https://registry.npmjs.org/jest-leak-detector/-/jest-leak-detector-30.0.5.tgz"
@@ -5215,9 +5249,10 @@ jest-mock@30.0.5:
   resolved "file:packages/jest-openapi"
   dependencies:
     jest-matcher-utils "^26.6.2"
+    minimatch "10.0.3"
     openapi-validator "^0.14.2"
 
-jest-pnp-resolver@^1.2.2, jest-pnp-resolver@^1.2.3:
+jest-pnp-resolver@^1.2.3:
   version "1.2.3"
   resolved "https://registry.npmjs.org/jest-pnp-resolver/-/jest-pnp-resolver-1.2.3.tgz"
   integrity sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==
@@ -5235,21 +5270,7 @@ jest-resolve-dependencies@30.0.5:
     jest-regex-util "30.0.1"
     jest-snapshot "30.0.5"
 
-jest-resolve@*:
-  version "26.6.2"
-  resolved "https://registry.npmjs.org/jest-resolve/-/jest-resolve-26.6.2.tgz"
-  integrity sha512-sOxsZOq25mT1wRsfHcbtkInS+Ek7Q8jCHUB0ZUTP0tc/c41QHriU/NunqMfCUWsL4H3MHpvQD4QR9kSYhS7UvQ==
-  dependencies:
-    "@jest/types" "^26.6.2"
-    chalk "^4.0.0"
-    graceful-fs "^4.2.4"
-    jest-pnp-resolver "^1.2.2"
-    jest-util "^26.6.2"
-    read-pkg-up "^7.0.1"
-    resolve "^1.18.1"
-    slash "^3.0.0"
-
-jest-resolve@30.0.5:
+jest-resolve@*, jest-resolve@30.0.5:
   version "30.0.5"
   resolved "https://registry.npmjs.org/jest-resolve/-/jest-resolve-30.0.5.tgz"
   integrity sha512-d+DjBQ1tIhdz91B79mywH5yYu76bZuE96sSbxj8MkjWVx5WNdt1deEFRONVL4UkKLSrAbMkdhb24XN691yDRHg==
@@ -5345,18 +5366,6 @@ jest-snapshot@30.0.5:
     pretty-format "30.0.5"
     semver "^7.7.2"
     synckit "^0.11.8"
-
-jest-util@^26.6.2:
-  version "26.6.2"
-  resolved "https://registry.npmjs.org/jest-util/-/jest-util-26.6.2.tgz"
-  integrity sha512-MDW0fKfsn0OI7MS7Euz6h8HNDXVQ0gaM9uW6RjfDmd1DAFcaxX9OqIakHIqhbnmF08Cf2DLDG+ulq8YQQ0Lp0Q==
-  dependencies:
-    "@jest/types" "^26.6.2"
-    "@types/node" "*"
-    chalk "^4.0.0"
-    graceful-fs "^4.2.4"
-    is-ci "^2.0.0"
-    micromatch "^4.0.2"
 
 "jest-util@^29.0.0 || ^30.0.0", jest-util@30.0.5:
   version "30.0.5"
@@ -7539,7 +7548,7 @@ resolve-from@^5.0.0:
   resolved "https://registry.npmjs.org/resolve-from/-/resolve-from-5.0.0.tgz"
   integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
-resolve@^1.1.6, resolve@^1.10.0, resolve@^1.13.1, resolve@^1.17.0, resolve@^1.18.1:
+resolve@^1.1.6, resolve@^1.10.0, resolve@^1.13.1, resolve@^1.17.0:
   version "1.20.0"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.20.0.tgz"
   integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==

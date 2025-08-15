@@ -83,7 +83,7 @@ describe('chaiResponseValidator(filepathOrObject)', () => {
         );
         const func = () => chaiResponseValidator(pathToApiSpec);
         expect(func).to.throw(
-          "Invalid OpenAPI spec: Cannot read property 'swagger' of undefined",
+          /Invalid OpenAPI spec: Cannot read propert(y|ies) of undefined \(reading '?swagger'?\)/
         );
       });
     });

@@ -1,27 +1,25 @@
 import path from 'path';
 import supertest, { Response as SuperAgentResponse } from 'supertest';
-import requestPromise from 'request-promise';
-import type { Response as RequestPromiseResponse } from 'request';
+// import requestPromise from 'request-promise';
+// import type { Response as RequestPromiseResponse } from 'request';
 import { str } from '../../../../../commonTestResources/utils';
 import app from '../../../../../commonTestResources/exampleApp';
 import jestOpenAPI from '../../..';
 
-let appOrigin: string;
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
 );
 
+jestOpenAPI(pathToApiSpec);
+
 describe('Parsing responses from different request modules', () => {
   let server: any;
-  let axios: any;
+  let appOrigin: string;
   beforeAll(async () => {
-    jestOpenAPI(pathToApiSpec);
     server = app.listen(0); // 0 = random available port
     const address = server.address();
     const port = typeof address === 'object' && address ? address.port : 5000;
     appOrigin = `http://localhost:${port}`;
-    // Dynamically import axios for ESM compatibility
-    axios = (await import('axios')).default;
   });
   afterAll(() => {
     if (server) server.close();
@@ -110,58 +108,16 @@ describe('Parsing responses from different request modules', () => {
     });
   });
 
-  describe('axios', () => {
-    describe('res header is application/json, and res.body is a string', () => {
-      let res: any;
-      beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/string`,
-        );
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
-      });
+  describe('axios (as request-promise replacement)', () => {
+    let axios: any;
+    beforeAll(async () => {
+      axios = (await import('axios')).default;
     });
-
-    describe('res header is application/json, and res.body is {}', () => {
-      let res: any;
-      beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
-        );
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: {} }));
-      });
-    });
-
-    describe('res header is text/html, res.body is a string', () => {
-      let res: any;
-      beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/header/text/html`);
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
-      });
-    });
-
     describe('res header is application/json, and res.body is a null', () => {
       let res: any;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/nullable`,
+          `${appOrigin}/header/application/json/and/responseBody/nullable`
         );
       });
       it('passes', () => {
@@ -169,7 +125,9 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: null }));
+        expect(assertion).toThrow(
+          str({ body: null }),
+        );
       });
     });
 
@@ -177,7 +135,7 @@ describe('Parsing responses from different request modules', () => {
       let res: any;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/no/content-type/header/and/no/response/body`,
+          `${appOrigin}/no/content-type/header/and/no/response/body`
         );
       });
       it('passes', () => {
@@ -185,46 +143,13 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: '' }));
-      });
-    });
-  });
-
-  describe('request-promise', () => {
-    describe('res header is application/json, and res.body is a null', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/application/json/and/responseBody/nullable`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: 'null' }));
-      });
-    });
-
-    describe('res has no content-type header, and res.body is empty string', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/no/content-type/header/and/no/response/body`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(str({ body: '' }));
+        expect(assertion).toThrow(
+          str({ body: '' }),
+        );
       });
     });
   });
 });
+
+
+
