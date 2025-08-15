@@ -1,4 +1,3 @@
-
 import type { AxiosStatic, AxiosResponse } from 'axios';
 import path from 'path';
 import supertest, { Response as SuperAgentResponse } from 'supertest';
@@ -6,7 +5,6 @@ import type { Server } from 'http';
 import { str } from '../../../../../commonTestResources/utils';
 import app from '../../../../../commonTestResources/exampleApp';
 import jestOpenAPI from '../../..';
-
 
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
@@ -21,7 +19,8 @@ describe('Parsing responses from different request modules', () => {
     return new Promise<void>((resolve) => {
       server = app.listen(0, () => {
         const address = server.address();
-        const port = typeof address === 'object' && address ? address.port : 5000;
+        const port =
+          typeof address === 'object' && address ? address.port : 5000;
         appOrigin = `http://localhost:${port}`;
         resolve();
       });
@@ -29,7 +28,8 @@ describe('Parsing responses from different request modules', () => {
   });
   afterAll(() => {
     return new Promise<void>((resolve, reject) => {
-      if (server) server.close((err?: Error) => (err ? reject(err) : resolve()));
+      if (server)
+        server.close((err?: Error) => (err ? reject(err) : resolve()));
       else resolve();
     });
   });
@@ -118,15 +118,15 @@ describe('Parsing responses from different request modules', () => {
   });
 
   describe('axios (as request-promise replacement)', () => {
-  let axios: AxiosStatic;
+    let axios: AxiosStatic;
     beforeAll(async () => {
       axios = (await import('axios')).default;
     });
     describe('res header is application/json, and res.body is a null', () => {
-  let res: AxiosResponse;
+      let res: AxiosResponse;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/nullable`
+          `${appOrigin}/header/application/json/and/responseBody/nullable`,
         );
       });
       it('passes', () => {
@@ -134,17 +134,15 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({ body: null }),
-        );
+        expect(assertion).toThrow(str({ body: null }));
       });
     });
 
     describe('res has no content-type header, and res.body is empty string', () => {
-  let res: AxiosResponse;
+      let res: AxiosResponse;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/no/content-type/header/and/no/response/body`
+          `${appOrigin}/no/content-type/header/and/no/response/body`,
         );
       });
       it('passes', () => {
@@ -152,13 +150,8 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({ body: '' }),
-        );
+        expect(assertion).toThrow(str({ body: '' }));
       });
     });
   });
 });
-
-
-
