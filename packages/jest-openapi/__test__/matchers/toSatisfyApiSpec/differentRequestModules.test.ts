@@ -1,10 +1,12 @@
+
+import type { AxiosStatic, AxiosResponse } from 'axios';
 import path from 'path';
 import supertest, { Response as SuperAgentResponse } from 'supertest';
-// import requestPromise from 'request-promise';
-// import type { Response as RequestPromiseResponse } from 'request';
+import type { Server } from 'http';
 import { str } from '../../../../../commonTestResources/utils';
 import app from '../../../../../commonTestResources/exampleApp';
 import jestOpenAPI from '../../..';
+
 
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
@@ -13,16 +15,23 @@ const pathToApiSpec = path.resolve(
 jestOpenAPI(pathToApiSpec);
 
 describe('Parsing responses from different request modules', () => {
-  let server: any;
+  let server: Server;
   let appOrigin: string;
-  beforeAll(async () => {
-    server = app.listen(0); // 0 = random available port
-    const address = server.address();
-    const port = typeof address === 'object' && address ? address.port : 5000;
-    appOrigin = `http://localhost:${port}`;
+  beforeAll(() => {
+    return new Promise<void>((resolve) => {
+      server = app.listen(0, () => {
+        const address = server.address();
+        const port = typeof address === 'object' && address ? address.port : 5000;
+        appOrigin = `http://localhost:${port}`;
+        resolve();
+      });
+    });
   });
   afterAll(() => {
-    if (server) server.close();
+    return new Promise<void>((resolve, reject) => {
+      if (server) server.close((err?: Error) => (err ? reject(err) : resolve()));
+      else resolve();
+    });
   });
 
   // These tests cover both supertest and chai-http, because they make requests the same way (using superagent)
@@ -109,12 +118,12 @@ describe('Parsing responses from different request modules', () => {
   });
 
   describe('axios (as request-promise replacement)', () => {
-    let axios: any;
+  let axios: AxiosStatic;
     beforeAll(async () => {
       axios = (await import('axios')).default;
     });
     describe('res header is application/json, and res.body is a null', () => {
-      let res: any;
+  let res: AxiosResponse;
       beforeAll(async () => {
         res = await axios.get(
           `${appOrigin}/header/application/json/and/responseBody/nullable`
@@ -132,7 +141,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res has no content-type header, and res.body is empty string', () => {
-      let res: any;
+  let res: AxiosResponse;
       beforeAll(async () => {
         res = await axios.get(
           `${appOrigin}/no/content-type/header/and/no/response/body`
