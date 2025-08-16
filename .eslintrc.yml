@@ -20,6 +20,7 @@ rules:
 
 ignorePatterns:
   - dist
+  - coverage
 
 overrides:
   - files: ['**/*.ts']
@@ -27,6 +28,7 @@ overrides:
     parserOptions:
       ecmaVersion: 2018
       sourceType: module
+      project: './tsconfig.json'
 
   - files:
       - '**/*.config.js'

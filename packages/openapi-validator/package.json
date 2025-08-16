@@ -10,8 +10,8 @@
     "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
     "build": "tsc",
-    "test": "echo",
-    "test:ci": "echo",
+    "test": "jest",
+    "test:ci": "jest --ci --coverage",
     "prepack": "yarn build"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/openapi-validator",
@@ -50,8 +50,11 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.12",
+    "@types/jest": "^30.0.0",
     "@types/js-yaml": "^4.0.3",
     "@types/typeof": "^1.0.0",
-    "openapi-types": "^9.2.0"
+    "jest": "^30.0.5",
+    "openapi-types": "^9.2.0",
+    "ts-jest": "^29.4.1"
   }
 }

@@ -12,6 +12,10 @@ export default class AxiosResponse extends AbstractResponse {
     this.bodyHasNoContent = this.body === '';
   }
 
+  public get isBodyEmpty(): boolean {
+    return this.bodyHasNoContent;
+  }
+
   getBodyForValidation(): AxiosResponse['body'] {
     if (this.bodyHasNoContent) {
       return null;
