@@ -4,26 +4,26 @@ import { defaultBasePath } from './common.utils';
 
 type ServerVariables = OpenAPIV3.ServerObject['variables'];
 
-const unique = <T>(array: T[]): T[] => [...new Set(array)];
+export const unique = <T>(array: T[]): T[] => [...new Set(array)];
 
 export const serversPropertyNotProvidedOrIsEmptyArray = (
   spec: OpenAPIV3.Document,
 ): boolean => !spec.servers || !spec.servers.length;
 
-const getBasePath = (url: string): string => {
+export const getBasePath = (url: string): string => {
   const basePathStartIndex = url.replace('//', '  ').indexOf('/');
   return basePathStartIndex !== -1
     ? url.slice(basePathStartIndex)
     : defaultBasePath;
 };
 
-const getPossibleValuesOfServerVariable = ({
+export const getPossibleValuesOfServerVariable = ({
   default: defaultValue,
   enum: enumMembers,
 }: OpenAPIV3.ServerVariableObject): string[] =>
   enumMembers ? unique([defaultValue].concat(enumMembers)) : [defaultValue];
 
-const mapServerVariablesToPossibleValues = (
+export const mapServerVariablesToPossibleValues = (
   serverVariables: NonNullable<ServerVariables>,
 ): Record<string, string[]> =>
   Object.entries(serverVariables).reduce(
@@ -36,7 +36,7 @@ const mapServerVariablesToPossibleValues = (
     {},
   );
 
-const convertTemplateExpressionToConcreteExpression = (
+export const convertTemplateExpressionToConcreteExpression = (
   templateExpression: string,
   mapOfVariablesToValues: Record<string, string>,
 ) =>
@@ -46,10 +46,13 @@ const convertTemplateExpressionToConcreteExpression = (
     templateExpression,
   );
 
-const getPossibleConcreteBasePaths = (
+export const getPossibleConcreteBasePaths = (
   basePath: string,
   serverVariables: NonNullable<ServerVariables>,
 ): string[] => {
+  if (!serverVariables || Object.keys(serverVariables).length === 0) {
+    return [basePath];
+  }
   const mapOfServerVariablesToPossibleValues =
     mapServerVariablesToPossibleValues(serverVariables);
   const combinationsOfBasePathVariableValues = generateCombinations(

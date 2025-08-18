@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "include": ["packages/**/*.ts", "types/**/*.ts", "*.ts"],
+  "references": [
+    { "path": "./packages/jest-openapi/tsconfig.eslint.json" },
+    {
+      "path": "./packages/chai-openapi-response-validator/tsconfig.eslint.json"
+    }
+  ]
+}

@@ -1,21 +1,37 @@
+import type { AxiosStatic, AxiosResponse } from 'axios';
 import path from 'path';
-import axios, { AxiosResponse } from 'axios';
 import supertest, { Response as SuperAgentResponse } from 'supertest';
-import requestPromise from 'request-promise';
-import type { Response as RequestPromiseResponse } from 'request';
-
+import type { Server } from 'http';
 import { str } from '../../../../../commonTestResources/utils';
-import app, { port } from '../../../../../commonTestResources/exampleApp';
+import app from '../../../../../commonTestResources/exampleApp';
 import jestOpenAPI from '../../..';
 
-const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
 );
 
-describe('Parsing responses from different request modules', () => {
+jestOpenAPI(pathToApiSpec);
+
+describe('parsing responses from different request modules', () => {
+  let server: Server;
+  let appOrigin: string;
   beforeAll(() => {
-    jestOpenAPI(pathToApiSpec);
+    return new Promise<void>((resolve) => {
+      server = app.listen(0, () => {
+        const address = server.address();
+        const port =
+          typeof address === 'object' && address ? address.port : 5000;
+        appOrigin = `http://localhost:${port}`;
+        resolve();
+      });
+    });
+  });
+  afterAll(() => {
+    return new Promise<void>((resolve, reject) => {
+      if (server)
+        server.close((err?: Error) => (err ? reject(err) : resolve()));
+      else resolve();
+    });
   });
 
   // These tests cover both supertest and chai-http, because they make requests the same way (using superagent)
@@ -32,11 +48,7 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'res.body is a string',
-          }),
-        );
+        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
       });
     });
 
@@ -52,11 +64,7 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: {},
-          }),
-        );
+        expect(assertion).toThrow(str({ body: {} }));
       });
     });
 
@@ -71,10 +79,7 @@ describe('Parsing responses from different request modules', () => {
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
         expect(assertion).toThrow(
-          str({
-            body: {},
-            text: 'res.body is a string',
-          }),
+          str({ body: {}, text: 'res.body is a string' }),
         );
       });
     });
@@ -91,11 +96,7 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: null,
-          }),
-        );
+        expect(assertion).toThrow(str({ body: null }));
       });
     });
 
@@ -111,283 +112,126 @@ describe('Parsing responses from different request modules', () => {
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: {},
-            text: '',
-          }),
-        );
+        expect(assertion).toThrow(str({ body: {}, text: '' }));
       });
     });
   });
 
-  describe('axios', () => {
-    beforeAll(() => {
-      app.server = app.listen(port);
+  describe('axios (as request-promise replacement)', () => {
+    let axios: AxiosStatic;
+    beforeAll(async () => {
+      axios = (await import('axios')).default;
     });
-    afterAll(() => {
-      app.server.close();
-    });
+
     describe('res header is application/json, and res.body is a string', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/string`,
-        );
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/header/application/json/and/responseBody/string`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'res.body is a string',
-          }),
-        );
+        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
       });
     });
 
     describe('res header is application/json, and res.body is {}', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
-        );
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: {},
-          }),
-        );
+        expect(assertion).toThrow(str({ body: {} }));
       });
     });
 
-    describe('res header is text/html, res.body is a string', () => {
+    describe('res header is text/html, res.body is {}, and res.text is a string', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/header/text/html`);
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(`${appOrigin}/header/text/html`);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'res.body is a string',
-          }),
-        );
+        expect(assertion).toThrow(str({ body: 'res.body is a string' }));
       });
     });
-
     describe('res header is application/json, and res.body is a null', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/header/application/json/and/responseBody/nullable`,
-        );
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/header/application/json/and/responseBody/nullable`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: null,
-          }),
-        );
+        expect(assertion).toThrow(str({ body: null }));
       });
     });
 
     describe('res has no content-type header, and res.body is empty string', () => {
       let res: AxiosResponse;
       beforeAll(async () => {
-        res = await axios.get(
-          `${appOrigin}/no/content-type/header/and/no/response/body`,
-        );
+        if (!appOrigin) throw new Error('appOrigin is undefined');
+        try {
+          res = await axios.get(
+            `${appOrigin}/no/content-type/header/and/no/response/body`,
+          );
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Axios request failed:', err);
+          throw err;
+        }
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
       });
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: '',
-          }),
-        );
-      });
-    });
-  });
-
-  describe('request-promise', () => {
-    beforeAll(() => {
-      app.server = app.listen(port);
-    });
-    afterAll(() => {
-      app.server.close();
-    });
-
-    describe('json is set to true, res header is application/json, and res.body is a string', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/application/json/and/responseBody/string`,
-          resolveWithFullResponse: true,
-          json: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'res.body is a string',
-          }),
-        );
-      });
-    });
-
-    describe('res header is application/json, and res.body is a string', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/application/json/and/responseBody/string`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'res.body is a string',
-          }),
-        );
-      });
-    });
-
-    describe('json is set to true, res header is application/json, and res.body is {}', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
-          resolveWithFullResponse: true,
-          json: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: {},
-          }),
-        );
-      });
-    });
-
-    describe("res header is application/json, and res.body is '{}'", () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: '{}',
-          }),
-        );
-      });
-    });
-
-    describe('res header is text/html, res.body is a string', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/text/html`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'res.body is a string',
-          }),
-        );
-      });
-    });
-
-    describe('res header is application/json, and res.body is a null', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/header/application/json/and/responseBody/nullable`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: 'null',
-          }),
-        );
-      });
-    });
-
-    describe('res has no content-type header, and res.body is empty string', () => {
-      let res: RequestPromiseResponse;
-      beforeAll(async () => {
-        res = await requestPromise({
-          method: 'GET',
-          uri: `${appOrigin}/no/content-type/header/and/no/response/body`,
-          resolveWithFullResponse: true,
-        });
-      });
-      it('passes', () => {
-        expect(res).toSatisfyApiSpec();
-      });
-      it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          str({
-            body: '',
-          }),
-        );
+        expect(assertion).toThrow(str({ body: '' }));
       });
     });
   });

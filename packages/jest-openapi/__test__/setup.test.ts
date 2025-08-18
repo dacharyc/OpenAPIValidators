@@ -74,18 +74,18 @@ describe('jestOpenAPI(filepathOrObject)', () => {
   });
 
   describe('absolute path to an invalid OpenAPI file', () => {
-    describe('YAML file that is empty', () => {
+    describe('yAML file that is empty', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/emptyYaml.yml',
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow(
-          "Invalid OpenAPI spec: Cannot read property 'swagger' of undefined",
+          "Invalid OpenAPI spec: Cannot read properties of undefined (reading 'swagger')",
         );
       });
     });
-    describe('YAML file that is invalid YAML', () => {
+    describe('yAML file that is invalid YAML', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidYamlFormat.yml',
@@ -96,7 +96,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
         );
       });
     });
-    describe('JSON file that is invalid JSON', () => {
+    describe('jSON file that is invalid JSON', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidJsonFormat.json',
@@ -107,7 +107,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
         );
       });
     });
-    describe('YAML file that is invalid OpenAPI 3', () => {
+    describe('yAML file that is invalid OpenAPI 3', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi3.yml',
@@ -116,7 +116,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
         expect(func).toThrow('Invalid OpenAPI spec:');
       });
     });
-    describe('JSON file that is invalid OpenAPI 2', () => {
+    describe('jSON file that is invalid OpenAPI 2', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi2.json',

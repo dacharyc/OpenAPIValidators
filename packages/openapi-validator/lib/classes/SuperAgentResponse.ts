@@ -22,6 +22,10 @@ export default class SuperAgentResponse extends AbstractResponse {
     this.bodyHasNoContent = res.text === '';
   }
 
+  public get isTextPopulatedInsteadOfBody(): boolean {
+    return this.isResTextPopulatedInsteadOfResBody;
+  }
+
   getBodyForValidation(): SuperAgentResponse['body'] {
     if (this.bodyHasNoContent) {
       return null;
