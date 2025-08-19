@@ -5,11 +5,8 @@ import {
   EXPECTED_COLOR as green,
 } from 'jest-matcher-utils';
 
-import {
-  joinWithNewLines,
-  str,
-} from '../../../../commonTestResources/utils';
 import jestOpenAPI from 'jest-openapi';
+import { joinWithNewLines, str } from '../../../../commonTestResources/utils';
 
 const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',
@@ -25,7 +22,10 @@ const expectReceivedToSatisfyApiSpec = matcherHint(
 const startOfAssertionErrorMessage = 'expect';
 
 const dirContainingApiSpec = path.resolve(
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently',
+  ),
 );
 
 describe('using OpenAPI 3 specs that define servers differently', () => {

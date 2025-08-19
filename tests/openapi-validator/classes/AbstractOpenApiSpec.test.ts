@@ -1,6 +1,8 @@
 import type { OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import AbstractOpenApiSpec from '../../../src/openapi-validator/classes/AbstractOpenApiSpec';
-import ValidationError, { ErrorCode } from '../../../src/openapi-validator/classes/errors/ValidationError';
+import ValidationError, {
+  ErrorCode,
+} from '../../../src/openapi-validator/classes/errors/ValidationError';
 import MockResponse from '../utils/MockResponse';
 
 type DummySpec = OpenAPIV2.Document | OpenAPIV3.Document;

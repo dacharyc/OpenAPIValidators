@@ -23,7 +23,10 @@ const startOfAssertionErrorMessage = 'expect';
 
 const dirContainingApiSpec = path.resolve(
   process.cwd(),
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/basePathDefinedDifferently'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/basePathDefinedDifferently',
+  ),
 );
 describe('using OpenAPI 2 specs that define basePath differently', () => {
   describe('spec has no basePath property', () => {

@@ -9,11 +9,7 @@ import {
   printExpected,
 } from 'jest-matcher-utils';
 
-import {
-  joinWithNewLines,
-  str,
-} from '../../../../commonTestResources/utils';
-
+import { joinWithNewLines, str } from '../../../../commonTestResources/utils';
 
 const expectReceivedToSatisfySchemaInApiSpec = matcherHint(
   'toSatisfySchemaInApiSpec',
@@ -38,7 +34,10 @@ const expectReceivedNotToSatisfySchemaInApiSpec = matcherHint(
 );
 
 const openApiSpecsDir = path.resolve(
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
+  ),
 );
 const openApiSpecs = [
   {

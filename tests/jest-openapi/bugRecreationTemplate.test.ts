@@ -4,7 +4,10 @@ import { inspect } from 'util';
 import jestOpenAPI from '../../src/jest-openapi';
 
 const dirContainingApiSpec = path.resolve(
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',
+  ),
 );
 
 describe('recreate bug (issue #XX)', () => {

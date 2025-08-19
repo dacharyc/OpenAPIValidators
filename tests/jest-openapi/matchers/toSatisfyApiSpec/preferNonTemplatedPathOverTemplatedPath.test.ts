@@ -3,7 +3,10 @@ import path from 'path';
 import jestOpenAPI from 'jest-openapi';
 
 const openApiSpecsDir = path.resolve(
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath',
+  ),
 );
 
 const openApiVersions = [2, 3];

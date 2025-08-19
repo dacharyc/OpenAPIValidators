@@ -1,4 +1,6 @@
-import ValidationError, { ErrorCode } from '../../../../src/openapi-validator/classes/errors/ValidationError';
+import ValidationError, {
+  ErrorCode,
+} from '../../../../src/openapi-validator/classes/errors/ValidationError';
 
 describe('ValidationError', () => {
   it('should set code and message', () => {

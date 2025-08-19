@@ -6,7 +6,10 @@ import { str } from '../../../../commonTestResources/utils';
 import app from '../../../../commonTestResources/exampleApp';
 
 const pathToApiSpec = path.resolve(
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/openapi3.yml'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
+  ),
 );
 
 describe('parsing responses from different request modules', () => {

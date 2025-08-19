@@ -5,11 +5,8 @@ import {
   EXPECTED_COLOR as green,
 } from 'jest-matcher-utils';
 
-import {
-  joinWithNewLines,
-  str,
-} from '../../../../commonTestResources/utils';
 import jestOpenAPI from 'jest-openapi';
+import { joinWithNewLines, str } from '../../../../commonTestResources/utils';
 
 const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',

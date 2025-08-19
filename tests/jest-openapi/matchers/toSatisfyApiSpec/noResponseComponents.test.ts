@@ -5,7 +5,10 @@ import jestOpenAPI from 'jest-openapi';
 import { joinWithNewLines } from '../../../../commonTestResources/utils';
 
 const openApiSpecsDir = path.resolve(
-  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/noResponseComponents'),
+  path.resolve(
+    process.cwd(),
+    'commonTestResources/exampleOpenApiFiles/valid/noResponseComponents',
+  ),
 );
 const openApiSpecs = [
   {
