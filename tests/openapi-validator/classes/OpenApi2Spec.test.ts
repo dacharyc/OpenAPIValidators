@@ -1,7 +1,5 @@
-import OpenApi2Spec from 'openapi-validator/lib/classes/OpenApi2Spec';
-import ValidationError, {
-  ErrorCode,
-} from 'openapi-validator/lib/classes/errors/ValidationError';
+import OpenApi2Spec from '../../../src/openapi-validator/classes/OpenApi2Spec';
+import ValidationError, { ErrorCode } from '../../../src/openapi-validator/classes/errors/ValidationError';
 
 describe('OpenApi2Spec', () => {
   const baseSpec = {

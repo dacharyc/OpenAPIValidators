@@ -1,3 +1,4 @@
+import jestOpenAPI from 'jest-openapi';
 import path from 'path';
 import {
   matcherHint,
@@ -12,7 +13,7 @@ import {
   joinWithNewLines,
   str,
 } from '../../../../commonTestResources/utils';
-import jestOpenAPI from '../../../../packages/jest-openapi';
+
 
 const expectReceivedToSatisfySchemaInApiSpec = matcherHint(
   'toSatisfySchemaInApiSpec',

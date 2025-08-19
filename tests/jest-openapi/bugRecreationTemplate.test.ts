@@ -1,7 +1,7 @@
 import path from 'path';
 import { inspect } from 'util';
 
-import jestOpenAPI from '../../packages/jest-openapi';
+import jestOpenAPI from '../../src/jest-openapi';
 
 const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',

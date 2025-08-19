@@ -13,7 +13,7 @@ export { ErrorCode } from './classes/errors/ValidationError';
 export type { default as OpenApi2Spec } from './classes/OpenApi2Spec';
 export type { default as OpenApi3Spec } from './classes/OpenApi3Spec';
 export { default as makeApiSpec } from './openApiSpecFactory';
-export { default as makeResponse } from 'openapi-validator/lib/responseFactory';
+export { default as makeResponse } from './responseFactory';
 
 export type OpenApiSpec = OpenApi2Spec | OpenApi3Spec;
 export type OpenAPISpecObject = OpenAPI.Document;

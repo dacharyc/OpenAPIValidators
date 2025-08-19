@@ -13,8 +13,8 @@ import {
   OpenApiSpec,
   RawResponse,
   ValidationError,
-} from 'openapi-validator';
-import { joinWithNewLines, stringify } from '../../../packages/jest-openapi/src/utils';
+} from '../../openapi-validator';
+import { joinWithNewLines, stringify } from '../utils';
 
 export default function (
   this: jest.MatcherContext,
@@ -26,12 +26,12 @@ export default function (
   const validationError = openApiSpec.validateResponse(actualResponse);
   const pass = !validationError;
 
-  const matcherHintOptions: MatcherHintOptions = {
-    comment:
-      "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
-    isNot: this.isNot,
-    promise: this.promise,
-  };
+    const matcherHintOptions: MatcherHintOptions = {
+      comment:
+        "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
+      isNot: !!this.isNot,
+      promise: this.promise ?? '',
+    };
   const hint = matcherHint(
     'toSatisfyApiSpec',
     undefined,

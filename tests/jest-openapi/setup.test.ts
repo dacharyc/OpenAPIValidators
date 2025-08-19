@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-import jestOpenAPI from '../../packages/jest-openapi';
+import jestOpenAPI from 'jest-openapi';
 
 const invalidArgErrorMessage =
   'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ';

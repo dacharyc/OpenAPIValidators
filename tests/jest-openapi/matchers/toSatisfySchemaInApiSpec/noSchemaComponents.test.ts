@@ -1,7 +1,8 @@
+import jestOpenAPI from 'jest-openapi';
 import { EXPECTED_COLOR as green } from 'jest-matcher-utils';
 import path from 'path';
 
-import jestOpenAPI from '../../../../packages/jest-openapi';
+
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec/noSchemaComponents',

@@ -1,6 +1,6 @@
 import AxiosResponse, {
   RawAxiosResponse,
-} from 'openapi-validator/lib/classes/AxiosResponse';
+} from '../../../src/openapi-validator/classes/AxiosResponse';
 
 describe('AxiosResponse', () => {
   it('should set status, body, req, and bodyHasNoContent correctly', () => {

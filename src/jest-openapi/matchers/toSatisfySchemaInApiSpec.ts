@@ -6,8 +6,8 @@ import {
   printWithType,
   RECEIVED_COLOR,
 } from 'jest-matcher-utils';
-import type { OpenApiSpec, Schema, ValidationError } from 'openapi-validator';
-import { joinWithNewLines, stringify } from '../../../packages/jest-openapi/src/utils';
+import type { OpenApiSpec, Schema, ValidationError } from '../../openapi-validator';
+import { joinWithNewLines, stringify } from '../utils';
 
 export default function (
   this: jest.MatcherContext,
@@ -18,8 +18,8 @@ export default function (
   const matcherHintOptions = {
     comment:
       "Matches 'received' to a schema defined in your API spec, then validates 'received' against it",
-    isNot: this.isNot,
-    promise: this.promise,
+    isNot: !!this.isNot,
+    promise: this.promise ?? '',
   };
   const hint = matcherHint(
     'toSatisfySchemaInApiSpec',

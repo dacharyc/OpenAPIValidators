@@ -2,7 +2,7 @@ import { RECEIVED_COLOR as red } from 'jest-matcher-utils';
 import path from 'path';
 
 import { joinWithNewLines } from '../../../../commonTestResources/utils';
-import jestOpenAPI from '../../../../packages/jest-openapi';
+import jestOpenAPI from 'jest-openapi';
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/noResponseComponents',

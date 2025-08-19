@@ -1,5 +1,5 @@
-import makeResponse from 'openapi-validator/lib/responseFactory';
-import AxiosResponse from 'openapi-validator/lib/classes/AxiosResponse';
+import makeResponse from '../../src/openapi-validator/responseFactory';
+import AxiosResponse from '../../src/openapi-validator/classes/AxiosResponse';
 
 describe('makeResponse', () => {
   it('throws if res is not an object', () => {

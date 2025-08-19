@@ -7,8 +7,8 @@ import {
   mapServerVariablesToPossibleValues,
   convertTemplateExpressionToConcreteExpression,
   getPossibleConcreteBasePaths,
-} from 'openapi-validator/lib/utils/OpenApi3Spec.utils';
-import { defaultBasePath } from 'openapi-validator/lib/utils/common.utils';
+} from '../../../src/openapi-validator/utils/OpenApi3Spec.utils';
+import { defaultBasePath } from '../../../src/openapi-validator/utils/common.utils';
 
 describe('OpenApi3Spec.utils', () => {
   describe('getMatchingServerUrlsAndServerBasePaths non-null assertion edge case', () => {

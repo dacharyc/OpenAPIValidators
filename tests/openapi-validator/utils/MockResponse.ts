@@ -1,4 +1,4 @@
-import AbstractResponse from 'openapi-validator/lib/classes/AbstractResponse';
+import AbstractResponse from '../../../src/openapi-validator/classes/AbstractResponse';
 
 export default class MockResponse extends AbstractResponse {
   public override status: number;

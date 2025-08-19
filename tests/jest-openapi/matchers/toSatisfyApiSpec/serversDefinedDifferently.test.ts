@@ -9,7 +9,7 @@ import {
   joinWithNewLines,
   str,
 } from '../../../../commonTestResources/utils';
-import jestOpenAPI from '../../../../packages/jest-openapi';
+import jestOpenAPI from 'jest-openapi';
 
 const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',

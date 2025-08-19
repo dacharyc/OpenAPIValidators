@@ -1,4 +1,4 @@
-import AbstractResponse from 'openapi-validator/lib/classes/AbstractResponse';
+import AbstractResponse from '../../../src/openapi-validator/classes/AbstractResponse';
 
 describe('AbstractResponse', () => {
   // The 'res' parameter is typed as 'any' because this is a test mock, not a real HTTP response.

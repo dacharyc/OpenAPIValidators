@@ -6,7 +6,7 @@ import {
 } from 'jest-matcher-utils';
 
 import { joinWithNewLines } from '../../../../commonTestResources/utils';
-import jestOpenAPI from '../../../../packages/jest-openapi';
+import jestOpenAPI from 'jest-openapi';
 
 const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',

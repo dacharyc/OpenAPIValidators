@@ -3,7 +3,7 @@ import path from 'path';
 import type { Server } from 'http';
 import { str } from '../../../../commonTestResources/utils';
 import app from '../../../../commonTestResources/exampleApp';
-import jestOpenAPI from '../../../../packages/jest-openapi';
+import jestOpenAPI from 'jest-openapi';
 
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',

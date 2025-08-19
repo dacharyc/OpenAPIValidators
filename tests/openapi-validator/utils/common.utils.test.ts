@@ -1,4 +1,4 @@
-import { findOpenApiPathMatchingPossiblePathnames } from 'openapi-validator/lib/utils/common.utils';
+import { findOpenApiPathMatchingPossiblePathnames } from '../../../src/openapi-validator/utils/common.utils';
 
 describe('findOpenApiPathMatchingPossiblePathnames', () => {
   it('returns last OAPath that matches via doesOpenApiPathMatchPathname if no exact match', () => {

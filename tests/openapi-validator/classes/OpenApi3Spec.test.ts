@@ -1,8 +1,8 @@
 import type { OpenAPIV3 } from 'openapi-types';
-import OpenApi3Spec from 'openapi-validator/lib/classes/OpenApi3Spec';
+import OpenApi3Spec from '../../../src/openapi-validator/classes/OpenApi3Spec';
 import ValidationError, {
   ErrorCode,
-} from 'openapi-validator/lib/classes/errors/ValidationError';
+} from '../../../src/openapi-validator/classes/errors/ValidationError';
 
 describe('OpenApi3Spec', () => {
   it('COVERS: explicit coverage hook for PathNotFound branch', () => {

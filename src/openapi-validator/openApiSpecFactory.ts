@@ -3,7 +3,7 @@ import yaml from 'js-yaml';
 import OpenAPISchemaValidator from 'openapi-schema-validator';
 import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import path from 'path';
-import typeOf from 'typeof';
+// Use standard typeof operator instead of importing 'typeof'
 import OpenApi2Spec from './classes/OpenApi2Spec';
 import OpenApi3Spec from './classes/OpenApi3Spec';
 import { stringify } from './utils/common.utils';
@@ -33,7 +33,7 @@ function loadSpec(arg: unknown): AnyObject {
     if (isObject(arg)) {
       return arg;
     }
-    throw new Error(`Received type '${typeOf(arg)}'`);
+  throw new Error(`Received type '${typeof arg}'`);
   } catch (error) {
     throw new Error(
       `The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ${

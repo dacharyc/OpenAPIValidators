@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import path from 'path';
-import OpenApi2Spec from 'openapi-validator/lib/classes/OpenApi2Spec';
-import OpenApi3Spec from 'openapi-validator/lib/classes/OpenApi3Spec';
-import makeApiSpec from 'openapi-validator/lib/openApiSpecFactory';
+import OpenApi2Spec from '../../src/openapi-validator/classes/OpenApi2Spec';
+import OpenApi3Spec from '../../src/openapi-validator/classes/OpenApi3Spec';
+import makeApiSpec from '../../src/openapi-validator/openApiSpecFactory';
 
 describe('makeApiSpec', () => {
   it('returns OpenApi2Spec for swagger 2.0 object', () => {

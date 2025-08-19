@@ -1,6 +1,6 @@
 import path from 'path';
 
-import jestOpenAPI from '../../../../packages/jest-openapi';
+import jestOpenAPI from 'jest-openapi';
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath',
