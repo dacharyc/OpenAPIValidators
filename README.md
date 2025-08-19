@@ -46,5 +46,3 @@ We have:
 
 Otherwise, we have preserved the original functionality as-is. All credit to
 the folks who contributed to that package!
-
-

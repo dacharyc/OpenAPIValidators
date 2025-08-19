@@ -23,8 +23,8 @@ export default class MockResponse extends AbstractResponse {
       headers: {},
       config: {},
     };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  super(mockRawResponse as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    super(mockRawResponse as any);
     this.status = status;
     this.req = req;
     this.body = body;

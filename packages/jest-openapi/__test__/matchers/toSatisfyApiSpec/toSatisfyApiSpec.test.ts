@@ -47,10 +47,14 @@ const openApiSpecs = [
   },
 ];
 
-openApiSpecs.forEach((spec) => {
-  const { openApiVersion, pathToApiSpec } = spec;
-
-  describe(`expect(res).toSatisfyApiSpec() (using an OpenAPI ${openApiVersion} spec)`, () => {
+describe.each(
+  openApiSpecs.map(({ openApiVersion, pathToApiSpec }) => [
+    openApiVersion,
+    pathToApiSpec,
+  ]),
+)(
+  'expect(res).toSatisfyApiSpec() (using an OpenAPI %i spec)',
+  (openApiVersion, pathToApiSpec) => {
     beforeAll(() => {
       jestOpenAPI(pathToApiSpec);
     });
@@ -134,16 +138,14 @@ openApiSpecs.forEach((spec) => {
             };
             const responseDefinition =
               openApiVersion === 2
-                ? // OpenAPI 2
-                  {
+                ? {
                     200: {
                       description:
                         'Response body references a simple schema object',
                       schema: { $ref: '#/definitions/StringSchema' },
                     },
                   }
-                : // OpenAPI 3
-                  {
+                : {
                     200: {
                       description:
                         'Response body references a simple schema object',
@@ -316,19 +318,18 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '202' response defined for endpoint 'GET /multipleResponsesDefined'`,
+                `expected ${red('received')} not to satisfy the '202' response defined for endpoint 'GET /multipleResponsesDefined`,
               );
             });
           });
 
-          describe('3rd defined response', () => {
+          describe('3rd defined response)', () => {
             const res = {
               status: 203,
               req: {
                 method: 'GET',
                 path: '/multipleResponsesDefined',
               },
-              // no body
             };
 
             it('passes', () => {
@@ -339,7 +340,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '203' response defined for endpoint 'GET /multipleResponsesDefined'`,
+                `expected ${red('received')} not to satisfy the '203' response defined for endpoint 'GET /multipleResponsesDefined`,
               );
             });
           });
@@ -663,5 +664,5 @@ openApiSpecs.forEach((spec) => {
         });
       });
     });
-  });
-});
+  },
+);

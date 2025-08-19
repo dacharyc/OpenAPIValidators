@@ -226,8 +226,9 @@ describe('using OpenAPI 3 specs that define servers differently', () => {
       },
     };
 
-    Object.entries(tests).forEach(([testName, test]) => {
-      describe(`res.req.path matches ${testName}`, () => {
+    describe.each(Object.entries(tests))(
+      'res.req.path matches %s',
+      (_, test) => {
         const { serverBasePath, expectedMatchingServers } = test;
 
         describe('res.req.path matches a server and an endpoint path', () => {
@@ -279,8 +280,8 @@ describe('using OpenAPI 3 specs that define servers differently', () => {
             expect(res).not.toSatisfyApiSpec();
           });
         });
-      });
-    });
+      },
+    );
   });
 
   describe('spec defines only absolute servers with base paths', () => {

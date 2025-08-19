@@ -50,10 +50,9 @@ const openApiSpecs = [
   },
 ];
 
-openApiSpecs.forEach((spec) => {
-  const { openApiVersion, pathToApiSpec } = spec;
-
-  describe(`expect(obj).toSatisfySchemaInApiSpec(schemaName) (using an OpenAPI ${openApiVersion} spec)`, () => {
+describe.each(openApiSpecs)(
+  'expect(obj).toSatisfySchemaInApiSpec(schemaName) (using an OpenAPI %i spec)',
+  ({ openApiVersion, pathToApiSpec }) => {
     beforeAll(() => {
       jestOpenAPI(pathToApiSpec);
     });
@@ -407,5 +406,5 @@ openApiSpecs.forEach((spec) => {
         );
       });
     });
-  });
-});
+  },
+);

@@ -18,10 +18,14 @@ const openApiSpecs = [
   },
 ];
 
-openApiSpecs.forEach((spec) => {
-  const { openApiVersion, pathToApiSpec } = spec;
-
-  describe(`expect(res).toSatisfyApiSpec() (using an OpenAPI ${openApiVersion} spec with no response component definitions)`, () => {
+describe.each(
+  openApiSpecs.map(({ openApiVersion, pathToApiSpec }) => [
+    openApiVersion,
+    pathToApiSpec,
+  ]),
+)(
+  'expect(res).toSatisfyApiSpec() (using an OpenAPI %i spec with no response component definitions)',
+  (_, pathToApiSpec) => {
     const res = {
       status: 204,
       req: {
@@ -48,5 +52,5 @@ openApiSpecs.forEach((spec) => {
     it('passes when using .not', () => {
       expect(res).not.toSatisfyApiSpec();
     });
-  });
-});
+  },
+);

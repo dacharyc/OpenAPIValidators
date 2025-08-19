@@ -6,59 +6,52 @@ const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath',
 );
 
-describe('expect(res).toSatisfyApiSpec() (using an OpenAPI spec with similar templated and non-templated OpenAPI paths)', () => {
-  [2, 3].forEach((openApiVersion) => {
-    describe(`OpenAPI ${openApiVersion}`, () => {
-      const openApiSpecs = [
-        {
-          isNonTemplatedPathFirst: true,
-          pathToApiSpec: path.join(
-            openApiSpecsDir,
-            'nonTemplatedPathBeforeTemplatedPath',
-            `openapi${openApiVersion}.yml`,
-          ),
+const openApiVersions = [2, 3];
+const specCases = [
+  {
+    isNonTemplatedPathFirst: true,
+    dir: 'nonTemplatedPathBeforeTemplatedPath',
+    label: 'before',
+  },
+  {
+    isNonTemplatedPathFirst: false,
+    dir: 'nonTemplatedPathAfterTemplatedPath',
+    label: 'after',
+  },
+];
+
+describe.each(openApiVersions)('openapi %i', (openApiVersion) => {
+  describe.each(specCases)(
+    'res.req.path matches a non-templated openapi path %s a templated openapi path',
+    (specCase) => {
+      const pathToApiSpec = path.join(
+        openApiSpecsDir,
+        specCase.dir,
+        `openapi${openApiVersion}.yml`,
+      );
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath',
         },
-        {
-          isNonTemplatedPathFirst: false,
-          pathToApiSpec: path.join(
-            openApiSpecsDir,
-            'nonTemplatedPathAfterTemplatedPath',
-            `openapi${openApiVersion}.yml`,
-          ),
-        },
-      ];
+        body: 'valid body (string)',
+      };
 
-      openApiSpecs.forEach((spec) => {
-        const { pathToApiSpec, isNonTemplatedPathFirst } = spec;
-
-        describe(`res.req.path matches a non-templated OpenAPI path ${
-          isNonTemplatedPathFirst ? 'before' : 'after'
-        } a templated OpenAPI path`, () => {
-          const res = {
-            status: 200,
-            req: {
-              method: 'GET',
-              path: '/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath',
-            },
-            body: 'valid body (string)',
-          };
-
-          beforeAll(() => {
-            jestOpenAPI(pathToApiSpec);
-          });
-
-          it('passes', () => {
-            expect(res).toSatisfyApiSpec();
-          });
-
-          it('fails when using .not', () => {
-            const assertion = () => expect(res).not.toSatisfyApiSpec();
-            expect(assertion).toThrow(
-              "not to satisfy the '200' response defined for endpoint 'GET /preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath'",
-            );
-          });
-        });
+      beforeAll(() => {
+        jestOpenAPI(pathToApiSpec);
       });
-    });
-  });
+
+      it(`passes (non-templated path ${specCase.label} templated path)`, () => {
+        expect(res).toSatisfyApiSpec();
+      });
+
+      it(`fails when using .not (non-templated path ${specCase.label} templated path)`, () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(
+          "not to satisfy the '200' response defined for endpoint 'GET /preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath'",
+        );
+      });
+    },
+  );
 });

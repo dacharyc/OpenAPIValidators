@@ -17,17 +17,16 @@ const openApiSpecs = [
   },
 ];
 
-openApiSpecs.forEach((spec) => {
-  const { openApiVersion, pathToApiSpec } = spec;
-
-  describe(`expect(obj).to.satisfySchemaInApiSpec(schemaName) (using an OpenAPI ${openApiVersion} spec with no schema definitions)`, () => {
+describe.each(openApiSpecs)(
+  'expect(obj).to.satisfySchemaInApiSpec(schemaName) (using an OpenAPI %i spec with no schema definitions)',
+  ({ openApiVersion, pathToApiSpec }) => {
     const obj = 'foo';
 
     beforeAll(() => {
       jestOpenAPI(pathToApiSpec);
     });
 
-    it('fails', () => {
+    it(`fails for OpenAPI v${openApiVersion}`, () => {
       const assertion = () =>
         expect(obj).toSatisfySchemaInApiSpec('NonExistentSchema');
       expect(assertion).toThrow(
@@ -35,12 +34,12 @@ openApiSpecs.forEach((spec) => {
       );
     });
 
-    it('fails when using .not', () => {
+    it(`fails when using .not for OpenAPI v${openApiVersion}`, () => {
       const assertion = () =>
         expect(obj).not.toSatisfySchemaInApiSpec('NonExistentSchema');
       expect(assertion).toThrow(
         `${green('schemaName')} must match a schema in your API spec`,
       );
     });
-  });
-});
+  },
+);
