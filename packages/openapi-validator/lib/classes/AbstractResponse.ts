@@ -1,10 +1,7 @@
 import { stringify } from '../utils/common.utils';
 
 export type RawAxiosResponse = import('./AxiosResponse').RawAxiosResponse;
-export type RawSuperAgentResponse =
-  import('./SuperAgentResponse').RawSuperAgentResponse;
-
-export type RawResponse = RawAxiosResponse | RawSuperAgentResponse;
+export type RawResponse = RawAxiosResponse;
 
 export default abstract class AbstractResponse {
   public declare status: number;

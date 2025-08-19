@@ -1,6 +1,4 @@
-import AbstractResponse, {
-  RawResponse,
-} from '../../lib/classes/AbstractResponse';
+import AbstractResponse from '../../lib/classes/AbstractResponse';
 
 export default class MockResponse extends AbstractResponse {
   public override status: number;
@@ -16,9 +14,17 @@ export default class MockResponse extends AbstractResponse {
     req: { method: string; path: string },
     body: unknown = {},
   ) {
-    // Create a minimal RawResponse object for the mock
-    const mockRawResponse: RawResponse = { status, body, req } as RawResponse;
-    super(mockRawResponse);
+    // Create a minimal RawAxiosResponse-like object for the mock
+    const mockRawResponse = {
+      status,
+      data: body,
+      request: req,
+      statusText: '',
+      headers: {},
+      config: {},
+    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  super(mockRawResponse as any);
     this.status = status;
     this.req = req;
     this.body = body;

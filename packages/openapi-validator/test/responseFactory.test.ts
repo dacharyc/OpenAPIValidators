@@ -1,6 +1,5 @@
 import makeResponse from '../lib/responseFactory';
 import AxiosResponse from '../lib/classes/AxiosResponse';
-import SuperAgentResponse from '../lib/classes/SuperAgentResponse';
 
 describe('makeResponse', () => {
   it('throws if res is not an object', () => {
@@ -19,18 +18,7 @@ describe('makeResponse', () => {
     expect(result).toBeInstanceOf(AxiosResponse);
   });
 
-  it('returns SuperAgentResponse if res has status but not data', () => {
-    const res = {
-      status: 201,
-      body: 'bar',
-      req: { method: 'GET', path: '/foo' },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
-    const result = makeResponse(res);
-    expect(result).toBeInstanceOf(SuperAgentResponse);
-  });
-
-  it('throws if res is not recognized as AxiosResponse or SuperAgentResponse', () => {
+  it('throws if res is not recognized as AxiosResponse', () => {
     const res = {
       statusCode: 202,
       body: 'baz',
