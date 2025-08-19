@@ -1,12 +1,12 @@
 import type { AxiosStatic, AxiosResponse } from 'axios';
 import path from 'path';
 import type { Server } from 'http';
+import jestOpenAPI from 'jest-openapi';
 import { str } from '../../../../commonTestResources/utils';
 import app from '../../../../commonTestResources/exampleApp';
-import jestOpenAPI from 'jest-openapi';
 
 const pathToApiSpec = path.resolve(
-  '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/openapi3.yml'),
 );
 
 describe('parsing responses from different request modules', () => {

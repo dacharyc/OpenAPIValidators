@@ -5,8 +5,8 @@ import {
   matcherHint,
 } from 'jest-matcher-utils';
 
-import { joinWithNewLines } from '../../../../commonTestResources/utils';
 import jestOpenAPI from 'jest-openapi';
+import { joinWithNewLines } from '../../../../commonTestResources/utils';
 
 const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',
@@ -22,7 +22,8 @@ const expectReceivedToSatisfyApiSpec = matcherHint(
 const startOfAssertionErrorMessage = 'expect';
 
 const dirContainingApiSpec = path.resolve(
-  '../../commonTestResources/exampleOpenApiFiles/valid/basePathDefinedDifferently',
+  process.cwd(),
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/basePathDefinedDifferently'),
 );
 describe('using OpenAPI 2 specs that define basePath differently', () => {
   describe('spec has no basePath property', () => {

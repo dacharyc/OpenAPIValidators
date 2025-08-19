@@ -25,7 +25,7 @@ const expectReceivedToSatisfyApiSpec = matcherHint(
 const startOfAssertionErrorMessage = 'expect';
 
 const dirContainingApiSpec = path.resolve(
-  '../../commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently'),
 );
 
 describe('using OpenAPI 3 specs that define servers differently', () => {

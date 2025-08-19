@@ -38,7 +38,7 @@ const expectReceivedNotToSatisfySchemaInApiSpec = matcherHint(
 );
 
 const openApiSpecsDir = path.resolve(
-  '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec'),
 );
 const openApiSpecs = [
   {

@@ -30,10 +30,13 @@ function loadSpec(arg: unknown): AnyObject {
     if (typeof arg === 'string') {
       return loadFile(arg);
     }
+    if (Array.isArray(arg)) {
+      throw new Error(`Received type 'array'`);
+    }
     if (isObject(arg)) {
       return arg;
     }
-  throw new Error(`Received type '${typeof arg}'`);
+    throw new Error(`Received type '${typeof arg}'`);
   } catch (error) {
     throw new Error(
       `The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ${

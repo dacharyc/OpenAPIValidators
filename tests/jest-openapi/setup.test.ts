@@ -38,7 +38,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
   describe('object representing a valid OpenAPI spec', () => {
     it("successfully extends jest's `expect`", () => {
       const pathToApiSpec = path.resolve(
-        '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.json',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/openapi3.json'),
       );
       const apiSpec = fs.readJSONSync(pathToApiSpec);
       expect(() => jestOpenAPI(apiSpec)).not.toThrow();
@@ -66,7 +66,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
   describe('absolute path to a file that is neither YAML nor JSON', () => {
     it('throws an error', () => {
       const pathToApiSpec = path.resolve(
-        '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/neitherYamlNorJson.js',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/invalid/fileFormat/neitherYamlNorJson.js'),
       );
       const func = () => jestOpenAPI(pathToApiSpec);
       expect(func).toThrow(`${invalidArgErrorMessage}Invalid YAML or JSON:\n`);
@@ -77,7 +77,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
     describe('yAML file that is empty', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
-          '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/emptyYaml.yml',
+          path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/invalid/fileFormat/emptyYaml.yml'),
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow(
@@ -88,7 +88,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
     describe('yAML file that is invalid YAML', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
-          '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidYamlFormat.yml',
+          path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidYamlFormat.yml'),
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow(
@@ -99,7 +99,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
     describe('jSON file that is invalid JSON', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
-          '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidJsonFormat.json',
+          path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidJsonFormat.json'),
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow(
@@ -110,7 +110,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
     describe('yAML file that is invalid OpenAPI 3', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
-          '../../commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi3.yml',
+          path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi3.yml'),
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow('Invalid OpenAPI spec:');
@@ -119,7 +119,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
     describe('jSON file that is invalid OpenAPI 2', () => {
       it('throws an error', () => {
         const pathToApiSpec = path.resolve(
-          '../../commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi2.json',
+          path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi2.json'),
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow('Invalid OpenAPI spec:');
@@ -130,7 +130,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
   describe('absolute path to a valid OpenAPI YAML file', () => {
     it("successfully extends jest's `expect`", () => {
       const pathToApiSpec = path.resolve(
-        '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/openapi3.yml'),
       );
       expect(() => jestOpenAPI(pathToApiSpec)).not.toThrow();
     });
@@ -139,7 +139,7 @@ describe('jestOpenAPI(filepathOrObject)', () => {
   describe('absolute path to a valid OpenAPI JSON file', () => {
     it("successfully extends jest's `expect`", () => {
       const pathToApiSpec = path.resolve(
-        '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.json',
+  path.resolve(process.cwd(), 'commonTestResources/exampleOpenApiFiles/valid/openapi3.json'),
       );
       expect(() => jestOpenAPI(pathToApiSpec)).not.toThrow();
     });
