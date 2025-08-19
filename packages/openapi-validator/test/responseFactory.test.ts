@@ -13,7 +13,7 @@ describe('makeResponse', () => {
 
   it('returns AxiosResponse if res has data', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = { data: 'foo', status: 200 } as any;
+    const res = { data: 'foo', status: 200, request: {} } as any;
     const result = makeResponse(res);
     expect(result).toBeInstanceOf(AxiosResponse);
   });

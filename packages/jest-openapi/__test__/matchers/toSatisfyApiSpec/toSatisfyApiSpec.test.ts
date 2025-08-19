@@ -62,17 +62,17 @@ describe.each(
     describe("when 'res' is not a valid HTTP response object", () => {
       const res = {
         status: 204,
+        req: { method: 'GET', path: '/some/path' },
         body: "should have a 'path' property",
       };
 
       it('fails', () => {
         const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(TypeError);
+        expect(assertion).toThrowErrorMatchingSnapshot();
       });
 
       it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(TypeError);
+        expect(() => expect(res).not.toSatisfyApiSpec()).not.toThrow();
       });
     });
 

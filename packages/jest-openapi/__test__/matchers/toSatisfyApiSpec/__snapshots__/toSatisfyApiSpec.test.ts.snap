@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`expect(res).toSatisfyApiSpec() (using an OpenAPI 2 spec) when 'res' is not a valid HTTP response object fails 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).[22mtoSatisfyApiSpec[2m() // Matches 'received' to a response defined in your API spec, then validates 'received' against it[22m
+
+expected [31mreceived[39m to satisfy a '204' response defined for endpoint 'GET /some/path' in your API spec
+
+[31mreceived[39m had request path [31m/some/path[39m, but your API spec has no matching path
+
+Paths found in API spec: [32m/responseBody/string, /responseBody/boolean, /HTTPMethod, /multiplePathParams/{param1}/{param2}, /multipleResponsesDefined, /pathAndQueryParams/{examplePathParam}, /pathParams/primitive/{stringParam}, /pathParams/array/{arrayParam}, /queryParams, /responseBody/empty, /responseBody/emptyObject, /responseBody/referencesSchemaObject/simple, /responseBody/object/depthOver2, /responseBody/object/withMultipleProperties, /responseStatus, /responseReferencesResponseDefinitionObject[39m"
+`;
+
+exports[`expect(res).toSatisfyApiSpec() (using an OpenAPI 3 spec) when 'res' is not a valid HTTP response object fails 1`] = `
+"[2mexpect([22m[31mreceived[39m[2m).[22mtoSatisfyApiSpec[2m() // Matches 'received' to a response defined in your API spec, then validates 'received' against it[22m
+
+expected [31mreceived[39m to satisfy a '204' response defined for endpoint 'GET /some/path' in your API spec
+
+[31mreceived[39m had request path [31m/some/path[39m, but your API spec has no matching path
+
+Paths found in API spec: [32m/responseBody/string, /responseBody/boolean, /responseBody/object/depthOver2, /responseBody/object/withMultipleProperties, /responseBody/referencesSchemaObject/simple, /responseBody/empty, /responseReferencesResponseDefinitionObject, /multipleResponsesDefined, /queryParams, /pathParams/primitive/{stringParam}, /pathParams/array/{arrayParam}, /multiplePathParams/{param1}/{param2}, /pathAndQueryParams/{examplePathParam}, /responseStatus, /HTTPMethod, /header/application/json/and/responseBody/string, /header/application/json/and/responseBody/emptyObject, /header/application/json/and/responseBody/boolean, /header/application/json/and/responseBody/nullable, /header/text/html, /no/content-type/header/and/no/response/body[39m"
+`;
