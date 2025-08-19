@@ -2,7 +2,6 @@
 node_modules
 .nyc_output/
 coverage/
-packages/**/commonTestResources
 .DS_STORE
 dist
 
@@ -10,4 +9,3 @@ dist
 yarn.lock
 launch.json
 **/invalidYamlFormat.yml
-lerna.json
