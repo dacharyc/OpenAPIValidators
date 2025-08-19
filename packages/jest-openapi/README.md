@@ -1,22 +1,19 @@
 # jest-openapi
 
-[![downloads](https://img.shields.io/npm/dm/jest-openapi)](https://www.npmjs.com/package/jest-openapi)
-[![npm](https://img.shields.io/npm/v/jest-openapi.svg)](https://www.npmjs.com/package/jest-openapi)
-![build status](https://github.com/openapi-library/OpenAPIValidators/actions/workflows/ci.yml/badge.svg)
-![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
-[![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
-[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/src/index.ts)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
-
 Additional Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec.
 
 ## Problem 😕
 
-If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
+If your server's behaviour doesn't match your API documentation, then you need
+to correct your server, your documentation, or both. The sooner you know the better.
 
 ## Solution 😄
 
-This plugin lets you automatically test whether your server's behaviour and documentation match. It adds Jest matchers that support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert [`expect(responseObject).toSatisfyApiSpec()`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
+This plugin lets you automatically test whether your server's behaviour and
+documentation match. It adds Jest matchers that support the
+[OpenAPI standard](https://swagger.io/docs/specification/about/) for
+documenting REST APIs. In your JavaScript tests, you can simply assert
+[`expect(responseObject).toSatisfyApiSpec()`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
 
 Features:
 
@@ -27,12 +24,8 @@ Features:
 - Supports OpenAPI specs in YAML and JSON formats
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
 - Informs you if your OpenAPI spec is invalid
-- Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
-- Use in [Jest](#usage), or use our [sister package](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme) for Mocha and other test runners that support Chai
-
-## Contributing ✨
-
-If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
+- Supports responses from `axios`
+- Use in [Jest](#usage)
 
 ## Installation
 
@@ -257,10 +250,9 @@ expected received to satisfy the 'StringSchema' schema defined in your API spec
 object did not satisfy it because: stringProperty should be string
 
 object was: {
-    {
-      stringProperty: 123,
-      integerProperty: 123
-    }
+  {
+    stringProperty: 123,
+    integerProperty: 123
   }
 }
 
