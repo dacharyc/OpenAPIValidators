@@ -4,30 +4,39 @@ on:
   push:
     paths-ignore:
       - '*.md'
-      - '.all-contributorsrc'
   pull_request:
     paths-ignore:
       - '*.md'
-      - '.all-contributorsrc'
   workflow_dispatch:
 
 jobs:
   Test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12
-
-      - name: Use yarn cache
-        uses: c-hive/gha-yarn-cache@v1
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
 
       - run: yarn install --frozen-lockfile
 
+      - run: yarn lint
+
+      - run: yarn typecheck:all
+
       - run: yarn test:ci
 
-      - name: Post code coverage to CodeCov
-        run: bash <(curl -s https://codecov.io/bash)
-        if: success()
+      - run: yarn coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
