@@ -53,7 +53,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test:ci"
+      "pre-commit": "yarn typecheck:all && yarn test:ci"
     }
   },
   "dependencies": {
