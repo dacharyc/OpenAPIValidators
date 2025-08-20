@@ -55,7 +55,6 @@ export default abstract class OpenApiSpec {
   }
 
   getPathItem(openApiPath: string): PathItemObject {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.pathsObject()[openApiPath]!;
   }
 
@@ -148,7 +147,6 @@ export default abstract class OpenApiSpec {
         : {}),
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const expectedResStatus = Object.keys(expectedResponse)[0]!;
     const validationError = validator.validateResponse(
       expectedResStatus,

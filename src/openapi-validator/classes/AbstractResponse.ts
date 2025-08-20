@@ -4,15 +4,15 @@ export type RawAxiosResponse = import('./AxiosResponse').RawAxiosResponse;
 export type RawResponse = RawAxiosResponse;
 
 export default abstract class AbstractResponse {
-  public declare status: number;
+  declare public status: number;
 
-  public declare req: { method: string; path: string };
+  declare public req: { method: string; path: string };
 
   public abstract getBodyForValidation(): unknown;
 
   protected body: unknown;
 
-  protected declare bodyHasNoContent: boolean;
+  declare protected bodyHasNoContent: boolean;
 
   constructor(protected res: RawResponse) {}
 

@@ -28,13 +28,14 @@ describe('parsing responses from different request modules', () => {
       });
     });
   });
-  afterAll(() => {
-    return new Promise<void>((resolve, reject) => {
-      if (server)
-        server.close((err?: Error) => (err ? reject(err) : resolve()));
-      else resolve();
-    });
-  });
+  afterAll(
+    () =>
+      new Promise<void>((resolve, reject) => {
+        if (server)
+          server.close((err?: Error) => (err ? reject(err) : resolve()));
+        else resolve();
+      }),
+  );
 
   describe('axios', () => {
     let axios: AxiosStatic;
