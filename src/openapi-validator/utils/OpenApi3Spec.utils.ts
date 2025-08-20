@@ -1,6 +1,26 @@
-import generateCombinations from 'combos';
+import cartesianProduct from 'cartesian-product';
 import type { OpenAPIV3 } from 'openapi-types';
 import { defaultBasePath } from './common.utils';
+
+// Helper: convert {a: [1,2], b: [3,4]} to [{a:1,b:3},{a:1,b:4},{a:2,b:3},{a:2,b:4}]
+function objectCartesianProduct<T extends Record<string, string[]>>(
+  obj: T,
+): Array<Record<keyof T, string>> {
+  const keys = Object.keys(obj) as Array<keyof T>;
+  if (keys.length === 0)
+    return [Object.create(null) as Record<keyof T, string>];
+  const values = keys.map((k) => obj[k]);
+  return (cartesianProduct(values) as unknown[]).map((vals) => {
+    const entry: Record<keyof T, string> = Object.create(null);
+    (vals as string[]).forEach((v, i) => {
+      const key = keys[i];
+      if (key !== undefined) {
+        entry[key] = v;
+      }
+    });
+    return entry;
+  });
+}
 
 type ServerVariables = OpenAPIV3.ServerObject['variables'];
 
@@ -55,7 +75,7 @@ export const getPossibleConcreteBasePaths = (
   }
   const mapOfServerVariablesToPossibleValues =
     mapServerVariablesToPossibleValues(serverVariables);
-  const combinationsOfBasePathVariableValues = generateCombinations(
+  const combinationsOfBasePathVariableValues = objectCartesianProduct(
     mapOfServerVariablesToPossibleValues,
   );
   const possibleBasePaths = combinationsOfBasePathVariableValues.map(

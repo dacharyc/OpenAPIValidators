@@ -1,4 +1,4 @@
-import { Path } from 'path-parser';
+import { match } from 'path-to-regexp';
 import url from 'url';
 import { inspect } from 'util';
 import type { ActualRequest } from '../classes/AbstractResponse';
@@ -25,14 +25,13 @@ const doesColonPathMatchPathname = (
   /*
    * By default, OpenAPI path parameters have `style: simple; explode: false` (https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-object)
    * So array path parameters in the pathname of the actual request should be in the form: `/pathParams/a,b,c`
-   * `path-parser` fails to match parameter patterns to parameters containing commas.
-   * So we remove the commas.
+   * We remove the commas for compatibility with legacy behavior.
    */
   const pathWithoutCommas = pathname.replace(/,/g, '');
-  const pathParamsInPathname = new Path(pathInColonForm).test(
-    pathWithoutCommas,
-  ); // => one of: null, {}, {exampleParam: 'foo'}
-  return Boolean(pathParamsInPathname);
+  // path-to-regexp expects colon-form, so this is compatible
+  const matcher = match(pathInColonForm, { decode: decodeURIComponent });
+  const result = matcher(pathWithoutCommas);
+  return Boolean(result);
 };
 
 const doesOpenApiPathMatchPathname = (

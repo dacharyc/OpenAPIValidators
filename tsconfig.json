@@ -1,5 +1,5 @@
 {
-  "files": ["./types/combos.d.ts"],
+  "files": ["./types/cartesian-product.d.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
