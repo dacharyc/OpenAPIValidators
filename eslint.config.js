@@ -1,4 +1,3 @@
-// ESLint v9+ flat config using FlatCompat for legacy configs
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
 import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
@@ -15,8 +14,9 @@ export default [
   ...compat.extends('airbnb-typescript/base'),
   ...compat.extends('plugin:@typescript-eslint/recommended'),
   ...compat.extends('prettier'),
+  // TypeScript source files
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -30,8 +30,36 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-use-before-define': 'off',
-      '@typescript-eslint/lines-between-class-members': 'off',
       '@typescript-eslint/no-throw-literal': 'off',
+      'lines-between-class-members': 'off',
+      '@typescript-eslint/lines-between-class-members': 'off',
+    },
+  },
+  // TypeScript test files
+  {
+    files: ['tests/**/*.ts', 'tests/**/*.tsx'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        project: './tsconfig.test.json',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': typescriptEslintPlugin,
+    },
+    rules: {
+      '@typescript-eslint/no-use-before-define': 'off',
+      '@typescript-eslint/no-throw-literal': 'off',
+      'lines-between-class-members': 'off',
+      '@typescript-eslint/lines-between-class-members': 'off',
+    },
+  },
+  {
+    files: ['src/index.ts'],
+    rules: {
+      'no-restricted-exports': 'off',
     },
   },
   {

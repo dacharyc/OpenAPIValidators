@@ -2,7 +2,19 @@
   "type": "module",
   "private": true,
   "name": "jest-openapi",
-  "main": "dist/src/jest-openapi/index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "engines": {
     "node": ">=16.0.0"
   },
@@ -12,7 +24,11 @@
     "lint": "eslint 'src/**/*.{js,ts}' 'tests/**/*.{js,ts}'",
     "build": "tsc",
     "test": "jest",
-    "test:ci": "jest --ci --runInBand"
+    "test:ci": "jest --ci --runInBand",
+    "prepublishOnly": "yarn lint && yarn typecheck:all && yarn test && yarn build",
+    "typecheck:tests": "tsc --project tsconfig.test.json",
+    "typecheck:common": "tsc --project tsconfig.commonTestResources.json",
+    "typecheck:all": "yarn typecheck:tests && yarn typecheck:common"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",

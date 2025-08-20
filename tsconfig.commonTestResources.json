@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["commonTestResources/**/*.ts"],
+  "exclude": ["node_modules", "dist", "coverage"],
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  }
+}
