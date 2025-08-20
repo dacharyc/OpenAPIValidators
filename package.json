@@ -4,7 +4,7 @@
   "name": "jest-openapi",
   "main": "dist/src/jest-openapi/index.js",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "clean": "rimraf dist coverage .nyc_output",
