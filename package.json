@@ -1,48 +1,71 @@
 {
+  "type": "module",
   "private": true,
-  "name": "openapi-validators",
-  "workspaces": [
-    "packages/*"
+  "name": "jest-openapi",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
-    "postinstall": "patch-package",
-    "patch-packages": "yarn patch-package openapi-response-validator",
-    "clean": "yarn workspaces run clean && rimraf packages/.nyc_output && rimraf packages/coverage",
+    "clean": "rimraf dist coverage .nyc_output",
     "format": "prettier --write . --ignore-path .prettierignore",
-    "lint": "yarn workspaces run lint",
-    "build": "yarn workspaces run build",
-    "test": "yarn workspaces run test",
-    "test:ci": "yarn workspaces run test:ci",
-    "lerna:version:preview": "yarn lerna:version --no-git-tag-version",
-    "lerna:version": "lerna version -m \"chore(release): %s\" --conventional-commits --no-changelog",
-    "lerna:publish": "lerna publish -m \"chore(release): %s\" --conventional-commits --no-changelog"
+    "lint": "eslint 'src/**/*.{js,ts}' 'tests/**/*.{js,ts}'",
+    "build": "tsc",
+    "test": "jest",
+    "test:ci": "jest --ci --runInBand",
+    "prepublishOnly": "yarn lint && yarn typecheck:all && yarn test && yarn build",
+    "typecheck:tests": "tsc --project tsconfig.test.json",
+    "typecheck:common": "tsc --project tsconfig.commonTestResources.json",
+    "typecheck:all": "yarn typecheck:tests && yarn typecheck:common",
+    "coverage": "jest --coverage --coverageThreshold='{\"global\": {\"branches\": 80, \"functions\": 80, \"lines\": 80, \"statements\": 80}}'"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13",
-    "@typescript-eslint/eslint-plugin": "5.62.0",
-    "@typescript-eslint/parser": "5.62.0",
-    "eslint": "8.56.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-airbnb-typescript": "^14.0.1",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-import": "^2.22.1",
+    "@types/express": "^5.0.3",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^30.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "@typescript-eslint/eslint-plugin": "8.40.0",
+    "@typescript-eslint/parser": "8.40.0",
+    "eslint": "9.33.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^29.0.1",
-    "eslint-plugin-mocha": "^8.0.0",
-    "express": "^4.17.1",
+    "express": "^5.1.0",
     "husky": "^4.3.0",
-    "lerna": "^4.0.0",
-    "patch-package": "^6.4.7",
-    "postinstall-postinstall": "^2.1.0",
-    "prettier": "^2.4.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.4.3"
+    "jest": "^30.0.5",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.4.1",
+    "typescript": "^5.9.2"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test:ci"
+      "pre-commit": "yarn typecheck:all && yarn test:ci"
     }
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cartesian-product": "^2.1.2",
+    "fs-extra": "11.3.1",
+    "jest-matcher-utils": "^30.0.5",
+    "js-yaml": "^4.1.0",
+    "openapi-response-validator": "^12.1.3",
+    "openapi-schema-validator": "^12.1.3",
+    "openapi-types": "^12.1.3",
+    "path-to-regexp": "^8.2.0"
   }
 }

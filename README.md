@@ -1,55 +1,367 @@
 # OpenAPI Validators
 
-![build status](https://github.com/openapi-library/OpenAPIValidators/actions/workflows/ci.yml/badge.svg)
-![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
-[![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
-[![MIT License](https://img.shields.io/npm/l/openapi-validator.svg?style=flat-square)](https://github.com/openapi-library/OpenAPIValidators/blob/master/LICENSE)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
-
-Use Jest or Chai to assert that HTTP responses satisfy an OpenAPI spec.
+Use Jest to assert that HTTP responses satisfy an OpenAPI spec.
 
 ## Problem 😕
 
-If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
+If your server's behaviour doesn't match your API documentation, then you need
+to correct your server, your documentation, or both. The sooner you know the better.
 
 ## Solution 😄
 
-These test plugins let you automatically test whether your server's behaviour and documentation match. They extend Jest and Chai to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert `expect(responseObject).toSatisfyApiSpec()`
+This plugin lets you automatically test whether your server's behaviour and
+documentation match. It adds Jest matchers that support the
+[OpenAPI standard](https://swagger.io/docs/specification/about/) for
+documenting REST APIs. In your JavaScript tests, you can simply assert
+[`expect(responseObject).toSatisfyApiSpec()`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
 
-### [jest-openapi](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme)
+Features:
 
-[![downloads](https://img.shields.io/npm/dm/jest-openapi)](https://www.npmjs.com/package/jest-openapi)
-[![npm](https://img.shields.io/npm/v/jest-openapi.svg)](https://www.npmjs.com/package/jest-openapi)
+- Validates the status and body of HTTP responses against your OpenAPI spec [(see example)](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
+- Validates objects against schemas defined in your OpenAPI spec [(see example)](#in-unit-tests-validate-objects-against-schemas-defined-in-your-OpenAPI-spec)
+- Load your OpenAPI spec just once in your tests (load from a filepath or object)
+- Supports OpenAPI [2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) and [3](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
+- Supports OpenAPI specs in YAML and JSON formats
+- Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
+- Informs you if your OpenAPI spec is invalid
+- Supports responses from `axios`
+- Use in [Jest](#usage)
 
-### [Chai OpenAPI Response Validator](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme)
+## Installation
 
-[![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
-[![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
+[npm](http://npmjs.org)
 
-## Contributors ✨
+```bash
+npm install --save-dev jest-openapi
+```
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/rwalle61"><img src="https://avatars1.githubusercontent.com/u/18170169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Richard Waller</b></sub></a><br /><a href="#maintenance-rwalle61" title="Maintenance">🚧</a> <a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=rwalle61" title="Code">💻</a> <a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=rwalle61" title="Documentation">📖</a> <a href="https://github.com/openapi-library/OpenAPIValidators/pulls?q=is%3Apr+reviewed-by%3Arwalle61" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://github.com/JonnySpruce"><img src="https://avatars3.githubusercontent.com/u/30812276?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jonny Spruce</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=JonnySpruce" title="Code">💻</a> <a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=JonnySpruce" title="Documentation">📖</a> <a href="https://github.com/openapi-library/OpenAPIValidators/pulls?q=is%3Apr+reviewed-by%3AJonnySpruce" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://github.com/AlexDobeck"><img src="https://avatars2.githubusercontent.com/u/10519388?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alex Dobeck</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=AlexDobeck" title="Code">💻</a> <a href="https://github.com/openapi-library/OpenAPIValidators/issues?q=author%3AAlexDobeck" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/BenGu3"><img src="https://avatars2.githubusercontent.com/u/7105857?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ben Guthrie</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=BenGu3" title="Code">💻</a> <a href="https://github.com/openapi-library/OpenAPIValidators/issues?q=author%3ABenGu3" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://martijnvegter.com/"><img src="https://avatars3.githubusercontent.com/u/25134477?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Martijn Vegter</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=mvegter" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/ludeknovy"><img src="https://avatars1.githubusercontent.com/u/13610612?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ludek</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=ludeknovy" title="Code">💻</a> <a href="https://github.com/openapi-library/OpenAPIValidators/issues?q=author%3Aludeknovy" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/tgiardina"><img src="https://avatars1.githubusercontent.com/u/37459104?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tommy Giardina</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=tgiardina" title="Code">💻</a> <a href="https://github.com/openapi-library/OpenAPIValidators/issues?q=author%3Atgiardina" title="Bug reports">🐛</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://xotabu4.github.io/"><img src="https://avatars3.githubusercontent.com/u/3033972?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oleksandr Khotemskyi</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=Xotabu4" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/amitkeinan9"><img src="https://avatars.githubusercontent.com/u/16577335?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Amit Keinan</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=amitkeinan9" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/DetachHead"><img src="https://avatars.githubusercontent.com/u/57028336?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DetachHead</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/issues?q=author%3ADetachHead" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://karlssonkristoffer.com/"><img src="https://avatars.githubusercontent.com/u/20490202?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kristoffer Karlsson</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=kristofferkarlsson93" title="Documentation">📖</a></td>
-  </tr>
-</table>
+[yarn](https://yarnpkg.com/)
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+```bash
+yarn add --dev jest-openapi
+```
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+## Importing
+
+ES6 / TypeScript
+
+```typescript
+import jestOpenAPI from 'jest-openapi';
+```
+
+CommonJS / JavaScript
+
+```javascript
+const jestOpenAPI = require('jest-openapi').default;
+```
+
+## Usage
+
+### In API tests, validate the status and body of HTTP responses against your OpenAPI spec:
+
+#### 1. Write a test:
+
+```javascript
+// Import this plugin
+import jestOpenAPI from 'jest-openapi';
+
+// Load an OpenAPI file (YAML or JSON) into this plugin
+jestOpenAPI('path/to/openapi.yml');
+
+// Write your test
+describe('GET /example/endpoint', () => {
+  it('should satisfy OpenAPI spec', async () => {
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    expect(res.status).toEqual(200);
+
+    // Assert that the HTTP response satisfies the OpenAPI spec
+    expect(res).toSatisfyApiSpec();
+  });
+});
+```
+
+#### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
+
+```yaml
+openapi: 3.0.0
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /example:
+    get:
+      responses:
+        200:
+          description: Response body should be an object with fields 'stringProperty' and 'integerProperty'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - stringProperty
+                  - integerProperty
+                properties:
+                  stringProperty:
+                    type: string
+                  integerProperty:
+                    type: integer
+```
+
+#### 3. Run your test to validate your server's response against your OpenAPI spec:
+
+##### The assertion passes if the response status and body satisfy `openapi.yml`:
+
+```javascript
+// Response includes:
+{
+  status: 200,
+  body: {
+    stringProperty: 'string',
+    integerProperty: 123,
+  },
+};
+```
+
+##### The assertion fails if the response body is invalid:
+
+```javascript
+// Response includes:
+{
+  status: 200,
+  body: {
+    stringProperty: 'string',
+    integerProperty: 'invalid (should be an integer)',
+  },
+};
+```
+
+###### Output from test failure:
+
+```javascript
+expect(received).toSatisfyApiSpec() // Matches 'received' to a response defined in your API spec, then validates 'received' against it
+
+expected received to satisfy the '200' response defined for endpoint 'GET /example/endpoint' in your API spec
+received did not satisfy it because: integerProperty should be integer
+
+received contained: {
+  body: {
+      stringProperty: 'string',
+      integerProperty: 'invalid (should be an integer)'
+    }
+  }
+}
+
+The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
+  '200': {
+    description: 'Response body should be a string',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'string'
+        }
+      }
+    }
+  },
+}
+```
+
+### In unit tests, validate objects against schemas defined in your OpenAPI spec:
+
+#### 1. Write a test:
+
+```javascript
+// Import this plugin and the function you want to test
+import jestOpenAPI from 'jest-openapi';
+import { functionToTest } from 'path/to/your/code';
+
+// Load an OpenAPI file (YAML or JSON) into this plugin
+jestOpenAPI('path/to/openapi.yml');
+
+// Write your test
+describe('functionToTest()', () => {
+  it('should satisfy OpenAPI spec', async () => {
+    // Assert that the function returns a value satisfying a schema defined in your OpenAPI spec
+    expect(functionToTest()).toSatisfySchemaInApiSpec('ExampleSchemaObject');
+  });
+});
+```
+
+#### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
+
+```yaml
+openapi: 3.0.0
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /example:
+    get:
+      responses:
+        200:
+          description: Response body should be an ExampleSchemaObject
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleSchemaObject'
+components:
+  schemas:
+    ExampleSchemaObject:
+      type: object
+      required:
+        - stringProperty
+        - integerProperty
+      properties:
+        stringProperty:
+          type: string
+        integerProperty:
+          type: integer
+```
+
+#### 3. Run your test to validate your object against your OpenAPI spec:
+
+##### The assertion passes if the object satisfies the schema `ExampleSchemaObject`:
+
+```javascript
+// object includes:
+{
+  stringProperty: 'string',
+  integerProperty: 123,
+};
+```
+
+##### The assertion fails if the object does not satisfy the schema `ExampleSchemaObject`:
+
+```javascript
+// object includes:
+{
+  stringProperty: 123,
+  integerProperty: 123,
+};
+```
+
+###### Output from test failure:
+
+```javascript
+expect(received).not.toSatisfySchemaInApiSpec(schemaName) // Matches 'received' to a schema defined in your API spec, then validates 'received' against it
+
+expected received to satisfy the 'StringSchema' schema defined in your API spec
+object did not satisfy it because: stringProperty should be string
+
+object was: {
+  {
+    stringProperty: 123,
+    integerProperty: 123
+  }
+}
+
+The 'ExampleSchemaObject' schema in API spec: {
+  type: 'object',
+  required: [
+    'stringProperty'
+    'integerProperty'
+  ],
+  properties: {
+    stringProperty: {
+      type: 'string'
+    },
+    integerProperty: {
+      type: 'integer'
+    }
+  }
+}
+```
+
+### Loading your OpenAPI spec (3 different ways):
+
+#### 1. From an absolute filepath ([see above](#usage))
+
+#### 2. From an object:
+
+```javascript
+// Import this plugin
+import jestOpenAPI from 'jest-openapi';
+
+// Get an object representing your OpenAPI spec
+const openApiSpec = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Example API',
+    version: '0.1.0',
+  },
+  paths: {
+    '/example/endpoint': {
+      get: {
+        responses: {
+          200: {
+            description: 'Response body should be a string',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// Load that OpenAPI object into this plugin
+jestOpenAPI(openApiSpec);
+
+// Write your test
+describe('GET /example/endpoint', () => {
+  it('should satisfy OpenAPI spec', async () => {
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    expect(res.status).toEqual(200);
+
+    // Assert that the HTTP response satisfies the OpenAPI spec
+    expect(res).toSatisfyApiSpec();
+  });
+});
+```
+
+#### 3. From a web endpoint:
+
+```javascript
+// Import this plugin and an HTTP client (e.g. axios)
+import jestOpenAPI from 'jest-openapi';
+import axios from 'axios';
+
+// Write your test
+describe('GET /example/endpoint', () => {
+  // Load your OpenAPI spec from a web endpoint
+  beforeAll(async () => {
+    const response = await axios.get('url/to/openapi/spec');
+    const openApiSpec = response.data; // e.g. { openapi: '3.0.0', ... };
+    jestOpenAPI(openApiSpec);
+  });
+
+  it('should satisfy OpenAPI spec', async () => {
+    // Get an HTTP response from your server
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    expect(res.status).toEqual(200);
+
+    // Assert that the HTTP response satisfies the OpenAPI spec
+    expect(res).toSatisfyApiSpec();
+  });
+});
+```
+
+## Origin and Changes
+
+This package is forked from [OpenAPIValidators](https://github.com/openapi-library/OpenAPIValidators).
+We have:
+
+- Updated and removed dependencies to modern, supported tooling
+- Removed support for Chai and SuperAgent
+
+Otherwise, we have preserved the original functionality as-is. All credit to
+the folks who contributed to that package!

@@ -1,6 +1,14 @@
 node_modules
-.nyc_output/
 coverage/
-packages/**/commonTestResources
 .DS_STORE
 dist
+
+# Ignore test build artifacts
+tests/**/*.js
+tests/**/*.d.ts
+tests/**/*.js.map
+
+# Ignore commonTestResources build artifacts
+commonTestResources/**/*.js
+commonTestResources/**/*.d.ts
+commonTestResources/**/*.js.map
